@@ -26,7 +26,7 @@ SECRET_KEY = 'rapip!d4c4*@1&$5rq%!=2(#w22)x87k)!y$2$*-n!xkm_3w#8'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'mysite.internal',
+    'mysite.com',
     'localhost',
     '127.0.0.1',
 ]
@@ -139,8 +139,16 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1423880584495260'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'a9fd47a018dbdd330d2c6e29f6eb9df4'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_TWITTER_KEY = 'DPhV8wlzWGeUvPXfM0VIxw'
+SOCIAL_AUTH_TWITTER_SECRET = 'IRREU8ch9fBykrOE4QlMDPIdtzFhCXZlykhL9YJDF74'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '633558435094-06vhd73g286e05j4547loauneleq2mrv.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'E4_zVS6iabd6Rn3dCWntdDid'
