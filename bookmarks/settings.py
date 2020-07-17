@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'images.apps.ImagesConfig',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,5 @@ SOCIAL_AUTH_TWITTER_SECRET = 'IRREU8ch9fBykrOE4QlMDPIdtzFhCXZlykhL9YJDF74'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '633558435094-06vhd73g286e05j4547loauneleq2mrv.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'E4_zVS6iabd6Rn3dCWntdDid'
+
+THUMBNAIL_DEBUG = True  # easy_thumbnails debug mode for increased visibility
