@@ -7,7 +7,20 @@
 {% if first_name %}
 <p>The profile for {{ first_name }} has been edited sucessfully</p>
 {% endif %}
-<p>Welcome to your dashboard.</p>
+
+{% with total_images_created=request.user.images_created.count %}
+<p>
+    Welcome to your dashboard. You have bookmarked {{ total_images_created}} image{{ total_images_created|pluralize}}.
+</p>
+{% endwith %}
+
+<p>
+    Drag the following button to your bookmarks toolbar to bookmark images from other websites ->
+    <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">
+        Bookmark it
+    </a>
+</p>
+
 <p><a href="{% url 'edit' %}">Edit profile</a></p>
 <p><a href="{% url 'password_change' %}">Change password</a></p>
 {% endblock content %}
