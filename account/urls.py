@@ -32,6 +32,9 @@ urlpatterns = [
     # edit profile
     path('edit/', views.edit, name='edit'),
 
+    # add follow view (is placed BEFORE user_detail pattern due to similarity)
+    path('users/follow/', views.user_follow, name='user_follow'),
+
     # add user views
     path('users/', views.user_list, name='user_list'),
     path('users/<username>/', views.user_detail, name='user_detail'),
