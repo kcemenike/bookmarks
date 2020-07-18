@@ -31,5 +31,7 @@ class Image(models.Model):
                                         related_name='images_liked',
                                         blank=True)
 
+    total_likes = models.PositiveIntegerField(db_index=True, default=0)
+
     def get_absolute_url(self):
         return reverse("images:detail", kwargs={"id": self.id, 'slug': self.slug})

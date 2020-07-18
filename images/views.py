@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Image
 from .forms import ImageCreateForm
 from bookmarks.common.decorators import ajax_required
+from actions.utils import create_action
 
 
 # Create your views here.
@@ -26,6 +27,11 @@ def image_create(request):
             new_item.user = request.user
             # save
             new_item.save()
+
+            # create action
+            create_action(request.user, 'bookmarked image', new_item)
+
+            # display success message
             messages.success(request, 'Image added successfully')
 
             # redirect to new created item detail_view
@@ -57,6 +63,8 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if action == 'like':
                 image.users_like.add(request.user)
+                # record activity
+                create_action(request.user, 'likes', image)
             else:
                 image.users_like.remove(request.user)
             return JsonResponse({'status': 'ok'})

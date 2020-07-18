@@ -9,6 +9,8 @@ from django.views.decorators.http import require_POST
 from bookmarks.common.decorators import ajax_required
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile, Contact
+from actions.utils import create_action
+from actions.models import Action
 # Create your views here.
 
 
@@ -36,7 +38,17 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+    # didsplay all actions
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+    if following_ids:
+        actions = actions.filter(user_id__in=following_ids)
+    # show only latest 10 actions
+    # use select_related for one-to-many (foreign) and one-to-one relationships
+    # use prefetch_related for many-to-one (reverse foreign) and many-to-many relationships
+    actions = actions.select_related(
+        'user', 'user__profile').prefetch_related('target')[:10]
+    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'actions': actions})
 
 
 def register(request):
@@ -51,6 +63,10 @@ def register(request):
             new_user.save()
             # create new user profile
             Profile.objects.create(user=new_user)
+
+            # create action
+            create_action(user=new_user, verb="has created an account")
+
             return render(
                 request,
                 'account/register_done.html',
@@ -114,6 +130,8 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(
                     user_from=request.user, user_to=user)
+                # create action
+                create_action(request.user, 'is_following', user)
             else:
                 Contact.objects.filter(
                     user_from=request.user, user_to=user).delete()
