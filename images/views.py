@@ -57,6 +57,10 @@ def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
     # increment total image views by 1 in redis DB
     total_views = r.incr(f"image:{image.id}:views")  # object-type:id:field
+
+    # increment image ranking by 1
+    r.zincrby('image_ranking', 1, image.id)
+
     return render(request,
                   'images/image/detail.html',
                   {'section': 'image', 'image': image, 'total_views': total_views})
@@ -107,3 +111,21 @@ def image_list(request):
     return render(request,
                   'images/image/list.html',
                   {'section': 'images', 'images': images})
+
+
+@login_required
+def image_ranking(request):
+    # get image ranking dictionary from redis and their ranking
+    image_ranking = r.zrange('image_ranking', 0, -1,
+                             desc=True, withscores=True)[:10]
+    image_ranking_ids = [int(id[0]) for id in image_ranking]
+    rank = [int(id[1]) for id in image_ranking]
+
+    # get most viewed images and sort using image_ranking_ids as keys
+    most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+
+    ranking = dict(zip(most_viewed, rank))
+    return render(request,
+                  'images/image/ranking.html',
+                  {'section': 'images', 'ranking': ranking})

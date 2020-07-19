@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+Images ranking
+{% endblock title %}
+
+{% block content %}
+  <h1>Image rankings</h1>
+  <ol>
+    {% for image, rank in ranking.items %}
+      <li>
+        <a href="{{image.get_absolute_url}}" data-toggle="tooltip" title="{{rank}} view{{rank|pluralize}}">{{ image.title }}</a>
+      </li>
+    {% endfor %}
+  <ol>
+{% endblock content %}
