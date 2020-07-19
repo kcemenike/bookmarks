@@ -9,6 +9,8 @@ This is for educational purposes only! Don't run this as is in a production envi
 - A personalised activity stream to view follower activities
 - A ranking of top images globally
 
+[![An image bookmarking site with django](video_image.jpg)](https://youtu.be/aiHBDRMYXoE "An image bookmarking site with django")
+
 ## Language/frameworks
 - HTML5
 - CSS3
