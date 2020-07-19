@@ -1,4 +1,4 @@
-# An image bookmarking site
+# An image bookmarking site #BuiltWithDjango
 This site allows users to bookmark images from any website on their personal profile.  
 This is for educational purposes only! Don't run this as is in a production environment!!!  
 
