@@ -1,5 +1,5 @@
 ﻿certifi
-Django==2.2.13
+django>=2.2.18
 django-extensions
 easy-thumbnails
 oauthlib
